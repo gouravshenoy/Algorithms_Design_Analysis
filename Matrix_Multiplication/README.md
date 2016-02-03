@@ -2,8 +2,8 @@
 
 ### Description
 This program implements 2 types of Matrix Multiplication techniques:
-    1. Standard Recursive Matrix Multiplication
-    2. Matrix Multiplication using Strassens Algorithm
+1. Standard Recursive Matrix Multiplication
+2. Matrix Multiplication using Strassens Algorithm
 
 The program also compares the running time of both algorithms. As expected, the Strassens algorithm runs faster for larger matrix sizes.
 
@@ -38,7 +38,7 @@ optional arguments:
 ### Sample Output
 
 ```cmd
-$ python .\matrix_multiply.py 16
+$ python matrix_multiply.py 16
 
 Matrix A:
    0  1  2  3  4  5  6  7  8  9  10  11  12  13  14  15
