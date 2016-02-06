@@ -2,8 +2,8 @@
 
 ### Description
 This program implements 2 types of Matrix Multiplication techniques:
-1. Standard Recursive Matrix Multiplication
-2. Matrix Multiplication using Strassens Algorithm
+* Standard Recursive Matrix Multiplication
+* Matrix Multiplication using Strassens Algorithm
 
 The program also compares the running time of both algorithms. As expected, the Strassens algorithm runs faster for larger matrix sizes.
 
@@ -20,7 +20,7 @@ T(n) = O(n^lg7) = O(n^2.81) time. [Here lg x = Log to base 2 of x]
 
 To execute the program, you need to specify the size (N) of the Square Matrix (N x N).
 The matrices A,B used for multiplication are auto-generated (N x N each).
-Note: Currently, the program only supports matrix of sizes that are power of 2. i.e. N = 2^k
+```Note: Currently, the program only supports matrix of sizes that are power of 2. i.e. N = 2^k```
 
 
 ### Usage
