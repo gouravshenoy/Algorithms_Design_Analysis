@@ -1,5 +1,6 @@
 __author__ = 'Gaurav-PC'
 
+import sys
 import time
 import random
 import argparse
@@ -13,6 +14,7 @@ class MatrixMultiply:
     """
 
     def __init__(self):
+        sys.setrecursionlimit(long(999999999))
         return
 
     """
@@ -261,6 +263,36 @@ class MatrixMultiply:
         return matrixC
 
     """
+    Multiplication(Iterative Algo) follows:
+
+    [ 8  1 ] x [ 8  8 ]  =  [ 69  70 ]
+    [ 3  4 ]   [ 5  6 ]     [ 44  48 ]
+
+    """
+    @classmethod
+    def iterative_matrix_multiply(cls, matrixA, matrixB):
+        """
+        Method to multiply 2 N x N matrices (N = 2^k)
+            using iterative algorithm
+        :param matrixA:
+        :param matrixB:
+        :return:
+        """
+
+        matrixC = []
+
+        for i in range(0, len(matrixA)):
+            submatrix = []
+            for j in range(0, len(matrixA)):
+                value = 0
+                for k in range(0, len(matrixA)):
+                    value += (matrixA[i][k] * matrixB[k][j])
+                submatrix.append(value)
+            matrixC.append(submatrix)
+
+        return matrixC
+
+    """
     Prints Matrix as follows:
 
            0   1
@@ -275,6 +307,7 @@ class MatrixMultiply:
         :param matrix:
         :return:
         """
+
         print '  ',
         for i in range(len(matrix[0])):
               print i, '',
@@ -282,6 +315,38 @@ class MatrixMultiply:
         for i, element in enumerate(matrix):
               print i, ''.join(str(element))
 
+
+    """
+    Prints Matrix as follows:
+
+           0   1
+        0 [69, 70]
+        1 [44, 48]
+
+    """
+    @classmethod
+    def write_matrix_to_file(cls, matrix, name):
+        """
+        Method to write matrix to a file
+        :param matrix:
+        :return:
+        """
+
+        size = len(matrix)
+        with open('output/matrix_mult.out', 'a') as fp:
+            fp.write('Matrix: ' + name + " [ " + str(size) + " x " + str(size) + " ] ==> \n")
+            fp.write('  ')
+            for i in range(len(matrix[0])):
+              fp.write(str(i) + '  ')
+            fp.write('\n')
+            for i, element in enumerate(matrix):
+                fp.write(str(i) + ''.join(str(element)))
+                fp.write('\n')
+
+
+            fp.write('\n')
+
+        return
 """
 Main method
 """
@@ -296,43 +361,62 @@ if __name__ == '__main__':
     mat_size = int(args.SIZE)
 
     obj = MatrixMultiply()
+    plot_dict = {'standard': {},
+                 'strassens': {}}
 
-    # generate random matrix content for mat size
-    matrixA = obj.matrix_generate(mat_size)
-    matrixB = obj.matrix_generate(mat_size)
+    for i in range(2, mat_size + 1):
+        if ((i & (i - 1)) == 0):
 
-    # TEST DATA
-    # matrixA = [[8,2], [8,5]]
-    # matrixB = [[1,3], [9,2]]
+            # generate random matrix content for mat size
+            matrixA = obj.matrix_generate(i)
+            matrixB = obj.matrix_generate(i)
 
-    # matrixA = [[3,2,1,6], [5,4,2,3], [7,1,6,5], [2,9,8,3]]
-    # matrixB = [[6,1,3,4], [2,5,6,1], [3,2,4,7], [9,5,6,3]]
+            # TEST DATA
+            # matrixA = [[8,2], [8,5]]
+            # matrixB = [[1,3], [9,2]]
 
-    print('Matrix A:')
-    obj.matrix_print(matrixA)
+            # matrixA = [[3,2,1,6], [5,4,2,3], [7,1,6,5], [2,9,8,3]]
+            # matrixB = [[6,1,3,4], [2,5,6,1], [3,2,4,7], [9,5,6,3]]
 
-    print('\nMatrix B:')
-    obj.matrix_print(matrixB)
+            # print('Matrix A:')
+            # obj.matrix_print(matrixA)
+            #
+            # print('\nMatrix B:')
+            # obj.matrix_print(matrixB)
 
-    start_time = time.time()
-    matrixC = obj.matrix_multiply(matrixA, matrixB)
-    end_time = time.time()
+            start_time = time.time()
+            matrixC = obj.matrix_multiply(matrixA, matrixB)
+            end_time = time.time()
 
-    print('\nStandard Matrix Multiplication:')
-    print("--- %s seconds ---" % (end_time - start_time))
+            # add to plot dict
+            plot_dict['standard'][i] = (end_time - start_time)
 
-    start_time = time.time()
-    strassens_matrixC = obj.strassens_matrix_multiply(matrixA, matrixB)
-    end_time = time.time()
+            print('\nStandard Matrix Multiplication:')
+            print("--- %s seconds ---" % (end_time - start_time))
 
-    print('\nStrassens Matrix Multiplication:')
-    print("--- %s seconds ---" % (end_time - start_time))
+            start_time = time.time()
+            strassens_matrixC = obj.strassens_matrix_multiply(matrixA, matrixB)
+            end_time = time.time()
 
-    print('\n Standard Matrix Multiplication Result ==>')
-    obj.matrix_print(matrixC)
+            # add to plot dict
+            plot_dict['strassens'][i] = (end_time - start_time)
 
-    print('\n Strassens Matrix Multiplication Result ==>')
-    obj.matrix_print(strassens_matrixC)
+            print('\nStrassens Matrix Multiplication:')
+            print("--- %s seconds ---" % (end_time - start_time))
+
+            # print('\n Standard Matrix Multiplication Result ==>')
+            # obj.matrix_print(matrixC)
+            #
+            # print('\n Strassens Matrix Multiplication Result ==>')
+            # obj.matrix_print(strassens_matrixC)
+
+            obj.write_matrix_to_file(matrixA, 'matrixA')
+            obj.write_matrix_to_file(matrixB, 'matrixB')
+            obj.write_matrix_to_file(matrixC, 'Standard Matrix Multiply')
+            obj.write_matrix_to_file(strassens_matrixC, 'Strassens Matrix Multiply')
+
+            with open('output/matrix_mult.out', 'a') as fp:
+                fp.write('****************** COMPLETE *********************\n\n')
 
     # a,b,c,d = obj.matrix_divide(matrixA)
     # print('\n a:')
