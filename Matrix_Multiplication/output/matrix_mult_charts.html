@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+        <!--<script src="http://code.jquery.com/jquery-1.10.2.js"></script>-->
+        <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <!--<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['line', 'geochart']}]}"></script>-->
+        <script src="https://www.google.com/jsapi"></script>
+        <script src="jquery.csv-0.71.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="http://visapi-gadgets.googlecode.com/svn/trunk/wordcloud/wc.css"/>
+        <script type="text/javascript" src="http://visapi-gadgets.googlecode.com/svn/trunk/wordcloud/wc.js"></script>
+
+        <script>
+            google.load("visualization", "1");
+            google.load('visualization', '1.1', {packages: ['line', 'corechart']});
+            $(document).ready(function(){
+                drawChart();
+            });
+            
+            function drawChart() {
+				
+                <!-- LINE GRAPH -->
+                $.get("graph_input.csv", function(csvString) {
+                    var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+                    var tableData = new google.visualization.arrayToDataTable(arrayData);
+                    var options = {
+                        chart: {
+                            title: 'Matrix Multiplication Comparison',
+                            subtitle: 'Iterative vs Recursive vs Strassens Algorithm'
+                        },
+						hAxis: {
+						  title: 'Time'
+						},
+						vAxis: {
+						  title: 'Size'
+						},
+						series: {
+						  1: {curveType: 'function'}
+						}
+                    };
+                    var chart2 = new google.charts.Line(document.getElementById('linechart_material'));
+                    chart2.draw(tableData, options);
+                });
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10">
+                    <div id="linechart_material"></div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+</html>
