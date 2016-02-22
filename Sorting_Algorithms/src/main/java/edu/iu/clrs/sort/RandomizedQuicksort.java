@@ -176,18 +176,18 @@ public class RandomizedQuicksort {
 	}
 
 	/**
-	 * Quick sort.
+	 * Quick sort prime.
 	 * 
 	 * @param begin
 	 *            the begin
 	 * @param end
 	 *            the end
 	 */
-	public void randomizedQuickSort(int begin, int end) {
+	public void quickSortPrime(int begin, int end) {
 		if (begin < end) {
 			int partition = this.randomizedPartition(begin, end);
-			this.randomizedQuickSort(begin, partition - 1);
-			this.randomizedQuickSort(partition + 1, end);
+			this.quickSortPrime(begin, partition - 1);
+			this.quickSortPrime(partition + 1, end);
 		}
 	}
 
@@ -218,18 +218,32 @@ public class RandomizedQuicksort {
 		Scanner scanner = new Scanner(System.in);
 
 		try {
+			/* Input size of array */
 			System.out.print("Enter the length of input array: ");
 			int length = scanner.nextInt();
 
-			RandomizedQuicksort sort = new RandomizedQuicksort(length);
+			/* Build array filled with random int */
+			RandomizedQuicksort rqSort = new RandomizedQuicksort(length);
 			System.out.println("Array of Size {" + length
 					+ "} (Before Sorting) :: ");
-			sort.printIntArray();
-			
-			sort.randomizedQuickSortPrime(0, length - 1);
+			/* Print array before sort */
+			rqSort.printIntArray();
+
+			/* Function call to randomizedQuickSortPrime */
+			rqSort.randomizedQuickSortPrime(0, length - 1);
+
+			/*
+			 * UNCOMMENT TO RUN... DONT FORGET TO COMMENT CALL TO
+			 * RANDOMIZEDQUICKSORTPRIME ABOVE ELSE ARRAY WILL BE SORTED TWICE
+			 */
+			/* Function call to quickSortPrime */
+			// rqSort.quickSortPrime(0, length - 1);
+
 			System.out.println("Array of size {" + length
 					+ "} (After Sorting) :: ");
-			sort.printIntArray();
+
+			/* Print array after sort */
+			rqSort.printIntArray();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
