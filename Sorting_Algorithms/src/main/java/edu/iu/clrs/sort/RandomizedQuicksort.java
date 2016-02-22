@@ -1,6 +1,7 @@
 package edu.iu.clrs.sort;
 
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -132,6 +133,49 @@ public class RandomizedQuicksort {
 	}
 
 	/**
+	 * Partition prime.
+	 * 
+	 * @param begin
+	 *            the begin
+	 * @param end
+	 *            the end
+	 * @return the int[]
+	 */
+	public int[] partitionPrime(int begin, int end) {
+
+		int x = this.getIntArray()[end];
+		int i = begin - 1, t = i + 1;
+
+		// Permute elements < pivot, to the left.
+		for (int j = begin; j <= (end - 1); j++) {
+			if (this.getIntArray()[j] < x) {
+				this.swapArrayElements(i + 1, j);
+				i++;
+			}
+		}
+
+		// Push elements == pivot, to the center.
+		for (t = (i + 1); t < end && this.getIntArray()[t] == x; t++)
+			;
+
+		// Move the elements == pivot, towards right to center.
+		for (int k = end; k >= t; k--) {
+			if (this.getIntArray()[k] == x) {
+				this.swapArrayElements(t, k);
+				t++;
+			}
+		}
+
+		// Return array of values with p and t.
+		int[] pivotArray = new int[2];
+
+		pivotArray[0] = (i + 1);
+		pivotArray[1] = (t - 1);
+
+		return pivotArray;
+	}
+
+	/**
 	 * Quick sort.
 	 * 
 	 * @param begin
@@ -148,16 +192,49 @@ public class RandomizedQuicksort {
 	}
 
 	/**
+	 * Randomized quick sort prime.
+	 * 
+	 * @param begin
+	 *            the begin
+	 * @param end
+	 *            the end
+	 */
+	public void randomizedQuickSortPrime(int begin, int end) {
+		if (begin < end) {
+			int partitionArray[] = this.partitionPrime(begin, end);
+			this.randomizedQuickSortPrime(begin, partitionArray[0] - 1);
+			this.randomizedQuickSortPrime(partitionArray[1] + 1, end);
+		}
+	}
+
+	/**
 	 * The main method.
 	 * 
 	 * @param args
 	 *            the arguments
 	 */
 	public static void main(String[] args) {
-		RandomizedQuicksort sort = new RandomizedQuicksort(10);
-		sort.printIntArray();
-		sort.randomizedQuickSort(0, 9);
-		sort.printIntArray();
+
+		Scanner scanner = new Scanner(System.in);
+
+		try {
+			System.out.print("Enter the length of input array: ");
+			int length = scanner.nextInt();
+
+			RandomizedQuicksort sort = new RandomizedQuicksort(length);
+			System.out.println("Array of Size {" + length
+					+ "} (Before Sorting) :: ");
+			sort.printIntArray();
+			
+			sort.randomizedQuickSortPrime(0, length - 1);
+			System.out.println("Array of size {" + length
+					+ "} (After Sorting) :: ");
+			sort.printIntArray();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			scanner.close();
+		}
 	}
 
 }
