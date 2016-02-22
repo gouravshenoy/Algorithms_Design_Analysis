@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * 
  * @author Gourav Shenoy
  */
-public class RandomizedQuicksort {
+public class RandomizedQuickSort {
 
 	/** The int array. */
 	private int[] intArray;
@@ -26,7 +26,7 @@ public class RandomizedQuicksort {
 	 * @param arraySize
 	 *            the array size
 	 */
-	public RandomizedQuicksort(int arraySize) {
+	public RandomizedQuickSort(int arraySize) {
 		this.buildRandomArray(arraySize);
 	}
 
@@ -223,7 +223,7 @@ public class RandomizedQuicksort {
 			int length = scanner.nextInt();
 
 			/* Build array filled with random int */
-			RandomizedQuicksort rqSort = new RandomizedQuicksort(length);
+			RandomizedQuickSort rqSort = new RandomizedQuickSort(length);
 			System.out.println("Array of Size {" + length
 					+ "} (Before Sorting) :: ");
 			/* Print array before sort */
