@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * The Class QuickSort.
+ * The Class RandomizedQuicksort.
  * 
  * @author Gourav Shenoy
  */
-public class QuickSort {
+public class RandomizedQuicksort {
 
 	/** The int array. */
 	private int[] intArray;
@@ -20,12 +20,12 @@ public class QuickSort {
 	private static final int MAX_RANGE = 500;
 
 	/**
-	 * Instantiates a new quick sort.
+	 * Instantiates a new randomized quicksort.
 	 * 
 	 * @param arraySize
 	 *            the array size
 	 */
-	public QuickSort(int arraySize) {
+	public RandomizedQuicksort(int arraySize) {
 		this.buildRandomArray(arraySize);
 	}
 
@@ -117,6 +117,21 @@ public class QuickSort {
 	}
 
 	/**
+	 * Randomized partition.
+	 * 
+	 * @param begin
+	 *            the begin
+	 * @param end
+	 *            the end
+	 * @return the int
+	 */
+	public int randomizedPartition(int begin, int end) {
+		int randomIndex = ThreadLocalRandom.current().nextInt(begin, end + 1);
+		this.swapArrayElements(randomIndex, end);
+		return this.partition(begin, end);
+	}
+
+	/**
 	 * Quick sort.
 	 * 
 	 * @param begin
@@ -124,11 +139,11 @@ public class QuickSort {
 	 * @param end
 	 *            the end
 	 */
-	public void quickSort(int begin, int end) {
+	public void randomizedQuickSort(int begin, int end) {
 		if (begin < end) {
-			int partition = this.partition(begin, end);
-			this.quickSort(begin, partition - 1);
-			this.quickSort(partition + 1, end);
+			int partition = this.randomizedPartition(begin, end);
+			this.randomizedQuickSort(begin, partition - 1);
+			this.randomizedQuickSort(partition + 1, end);
 		}
 	}
 
@@ -139,9 +154,9 @@ public class QuickSort {
 	 *            the arguments
 	 */
 	public static void main(String[] args) {
-		QuickSort sort = new QuickSort(10);
+		RandomizedQuicksort sort = new RandomizedQuicksort(10);
 		sort.printIntArray();
-		sort.quickSort(0, 9);
+		sort.randomizedQuickSort(0, 9);
 		sort.printIntArray();
 	}
 
